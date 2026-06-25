@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Room</title>
+</head>
+<body>
+    <h1>Room: {{.RoomID}}</h1>
+    <hr>
+    <h2>Chat</h2>
+    {{range .Messages}}
+        <p> <strong>{{.User}}</strong>: {{.Text}} </p>
+    {{end}}
+
+    <form action="/send-message" method="POST">
+        <input type="hidden" name="roomid" value="{{.RoomID}}">
+
+        <input type="text" name="message" placeholder="Send a message">
+
+        <button type="submit">Send</button>
+    </form>
+
+    <hr>
+
+    <h2>Code Review</h2>
+
+    {{if .CodeLocked}}
+
+        {{if .IsCodeOwner}}
+
+            <form action="/update-code" method="POST">
+                <input type="hidden" name="roomid" value="{{.RoomID}}">
+
+                <textarea name="code" rows="15" cols="80">{{.Code}}</textarea>
+
+                <br>
+
+                <button type="submit"> Update Code</button>
+            </form>
+            <br>
+            <form action="/finish-review" method="POST">
+                <input type="hidden" name="roomid" value="{{.RoomID}}">
+
+                <button type="submit">
+                    Finish Review
+                </button>
+            </form>
+
+        {{else}}
+
+            <p>Someone is currently reviewing code.</p>
+
+            <textarea rows="15" cols="80" readonly>{{.Code}}</textarea>
+
+        {{end}}
+    {{else}}
+
+        <p>No code is currently being reviewed.</p>
+
+        <form action="/claim-code" method="POST">
+            <input type="hidden" name="roomid" value="{{.RoomID}}">
+
+            <button type="submit"> Start Reviewing My Code </button>
+        </form>
+
+    {{end}}
+
+    <hr>
+
+    <h2>Comments</h2>
+
+    {{range .Comments}}
+        <p>
+            <strong>{{.User}}</strong>: {{.Text}}
+        </p>
+    {{end}}
+
+    <form action="/add-comment" method="POST">
+
+        <input type="hidden" name="roomid" value="{{.RoomID}}">
+
+        <input type="text" name="comment" placeholder="Leave a comment">
+
+        <button type="submit">Comment</button>
+    </form>
+    <hr>
+    <a href="/home">Back Home</a>
+</body>
+</html>

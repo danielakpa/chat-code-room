@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
 	"os"
 )
@@ -32,8 +31,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "bad request", 400)
 		return
 	}
-	var input 
 
+	if r.Method == http.MethodPost {
 
+	}
 
 }
