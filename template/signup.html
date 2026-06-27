@@ -7,23 +7,29 @@
 <body>
     <h1>sign up</h1>
     <form method="post" action="/signup">
-        <input type="text" name="name" placeholder="name(full name)" ><br>
-        <input type="text" name="gitea" placeholder="gitea-username" ><br>
-        <input type="text" name="email" placeholder="email"><br>
-        <input type="text" name="password" placeholder="password"><br>
-        <input type="text" name="C-password" placeholder="confirm password"><br>
-        <select required >
-            <option value="" disabled selected>--How did you hear from us--</option>
+        <input type="text" name="name" value="{{.Name}}" placeholder="name(full name)" ><br>
+        <input type="text" name="gitea" value="{{.Gitea}}" placeholder="gitea-username" ><br>
+        <input type="text" name="email" value="{{.Email}}" placeholder="email"><br>
+            {{.Errors}}<br>
+
+        <input type="password" name="password" placeholder="password"><br>
+        <input type="password" name="confirm_password" placeholder="confirm password"><br>
+        {{.Errors}} <br>
+        <select name="referrals" required="must select this option" >
+            <option value="" disabled selected>--How did you hear about us--</option>
             <option>A friend</option>
             <option>From cluster 1</option>
             <option>From cluster 2</option>
             <option>From cluster 3</option>
             <option>From cluster 4</option>
             <option>From one of the Mentors</option>
-        </select>
+        </select><br><br>
+
+
+          <button type="submit">Create Account</button><br>
     </form>
-    <button type="submit">Create Account</button><br>
-    <a href="login.html" > login</button>
+    Have an Account?
+    <a href="/login" > login</button>
 
 </body>
 </html>

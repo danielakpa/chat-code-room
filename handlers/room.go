@@ -5,30 +5,9 @@ import (
 	"net/http"
 )
 
-type Message struct {
-	Users string
-	Text  string
-}
-
-type Comment struct {
-	User string
-	Text string
-}
-
-type Room struct {
-	ID         string
-	Code       string
-	CodeOwner  string
-	CodeLocked bool
-	Messages   []Message
-	Comments   []Comment
-}
-
-var rooms = make(map[string]*Room)
-
 var tmpl = template.Must(template.ParseFiles("template/room.html"))
 
-func Roomm(w http.ResponseWriter, r *http.Request) {
+func Room(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
