@@ -19,7 +19,7 @@ func SendMessage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	msg := Message{
-		Users: "",
+		Users: current_user.Gitea,
 		Text:  MessageText,
 	}
 	room.Messages = append(room.Messages, msg)

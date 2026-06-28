@@ -16,13 +16,12 @@ func JoinRoom(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "roomid required", http.StatusBadRequest)
 		return
 	}
-
-	_, Exist := rooms[roomID]
-	if !Exist {
-		http.Error(w, "room not found", http.StatusNotFound)
-		return
-
-	} else {
-		http.Redirect(w, r, "/room?id="+roomID, http.StatusSeeOther)
+	for id, room := range rooms {
+		if room.Name == roomID {
+			http.Redirect(w, r, "/room?id="+id, http.StatusSeeOther)
+		} else {
+			http.Error(w, "roon not found", http.StatusNotFound)
+			return
+		}
 	}
 }

@@ -5,7 +5,7 @@
 </head>
 <body>
 
-    <h1>💻 Chat Code</h1>
+    <h1>💻 Chat RoomCode</h1>
 
     <p>
         Welcome,
@@ -45,7 +45,7 @@
 
     <hr>
 
-    <h2>📝 Shared Code</h2>
+    <h2>📝 Shared RoomCode</h2>
 
     {{if .Room.CodeLocked}}
 
@@ -56,7 +56,7 @@
             <form action="/update-code" method="POST">
                 <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-                <textarea name="code" rows="18" cols="100">{{.Room.Code}}</textarea>
+                <textarea name="code" rows="18" cols="100">{{.Room.RoomCode}}</textarea>
 
                 <br><br>
 
@@ -75,7 +75,7 @@
 
             <p>Another user is currently reviewing the code.</p>
 
-            <textarea rows="18" cols="100" readonly>{{.Room.Code}}</textarea>
+            <textarea rows="18" cols="100" readonly>{{.Room.RoomCode}}</textarea>
 
         {{end}}
 
@@ -83,14 +83,14 @@
 
         <p>No one is currently reviewing code.</p>
 
-        <textarea rows="18" cols="100" readonly>{{.Room.Code}}</textarea>
+        <textarea rows="18" cols="100" readonly>{{.Room.RoomCode}}</textarea>
 
         <br><br>
 
         <form action="/claim-code" method="POST">
             <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-            <button type="submit">Claim Code Review</button>
+            <button type="submit">Claim RoomCode Review</button>
         </form>
 
     {{end}}
