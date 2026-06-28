@@ -1,15 +1,21 @@
 package handlers
 
 import (
+	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 )
 
 var tmpl = template.Must(template.ParseFiles("template/room.html"))
 
+type RoomPageData struct {
+	User User
+	Room *Rooms
+}
+
 func Room(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
+
+	if r.Method != http.MethodGet {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
@@ -17,18 +23,26 @@ func Room(w http.ResponseWriter, r *http.Request) {
 	roomID := r.URL.Query().Get("id")
 
 	if roomID == "" {
-		http.Error(w, "room ID required", http.StatusNotFound)
+		http.Error(w, "room ID required", http.StatusBadRequest)
 		return
 	}
 
-	roomss, Exist := rooms[roomID]
-	if !Exist {
+	roomss, exist := rooms[roomID]
+	if !exist {
 		http.Error(w, "room not found", http.StatusNotFound)
 		return
-	} else {
-		if err := tmpl.Execute(w, roomss); err != nil {
-			log.Println(err)
-		}
 	}
 
+	data := RoomPageData{
+		User: current_user,
+		Room: roomss,
+	}
+
+	fmt.Println("Current user:", current_user.Gitea)
+	fmt.Println("Room:", roomss.Name)
+
+	err := tmpl.Execute(w, data)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

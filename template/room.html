@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{.Name}}</title>
+    <title>{{.Room.Name}}</title>
 </head>
 <body>
 
@@ -14,19 +13,19 @@
         ({{.User.Gitea}})
     </p>
 
-    <h2>{{.Name}}</h2>
+    <h2>{{.Room.Name}}</h2>
 
     <p>
-        <strong> ID:</strong>
-        {{.ID}}
+        <strong>ID:</strong>
+        {{.Room.ID}}
     </p>
 
     <hr>
 
     <h2>💬 Chat</h2>
 
-    {{if .Messages}}
-        {{range .Messages}}
+    {{if .Room.Messages}}
+        {{range .Room.Messages}}
             <p>
                 <strong>{{.Users}}</strong>:
                 {{.Text}}
@@ -37,13 +36,9 @@
     {{end}}
 
     <form action="/send-message" method="POST">
-        <input type="hidden" name="roomid" value="{{.ID}}">
+        <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-        <input
-            type="text"
-            name="message"
-            placeholder="Type a message..."
-            required>
+        <input type="text" name="message" placeholder="Type a message..." required>
 
         <button type="submit">Send</button>
     </form>
@@ -52,75 +47,50 @@
 
     <h2>📝 Shared Code</h2>
 
-    {{if .CodeLocked}}
+    {{if .Room.CodeLocked}}
 
-        {{if .IsCodeOwner}}
+        {{if eq .Room.CodeOwner .User.Gitea}}
 
             <p>You are currently reviewing the shared code.</p>
 
             <form action="/update-code" method="POST">
+                <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-                <input type="hidden" name="roomid" value="{{.ID}}">
-
-                <textarea
-                    name="code"
-                    rows="18"
-                    cols="100">{{.Code}}</textarea>
+                <textarea name="code" rows="18" cols="100">{{.Room.Code}}</textarea>
 
                 <br><br>
 
-                <button type="submit">
-                    Save Changes
-                </button>
-
+                <button type="submit">Save Changes</button>
             </form>
 
             <br>
 
             <form action="/finish-review" method="POST">
+                <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-                <input type="hidden" name="roomid" value="{{.ID}}">
-
-                <button type="submit">
-                    Finish Review
-                </button>
-
+                <button type="submit">Finish Review</button>
             </form>
 
         {{else}}
 
-            <p>
-                Another user is currently reviewing the code.
-            </p>
+            <p>Another user is currently reviewing the code.</p>
 
-            <textarea
-                rows="18"
-                cols="100"
-                readonly>{{.Code}}</textarea>
+            <textarea rows="18" cols="100" readonly>{{.Room.Code}}</textarea>
 
         {{end}}
 
     {{else}}
 
-        <p>
-            No one is currently reviewing code.
-        </p>
+        <p>No one is currently reviewing code.</p>
 
-        <textarea
-            rows="18"
-            cols="100"
-            readonly>{{.Code}}</textarea>
+        <textarea rows="18" cols="100" readonly>{{.Room.Code}}</textarea>
 
         <br><br>
 
         <form action="/claim-code" method="POST">
+            <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-            <input type="hidden" name="roomid" value="{{.ID}}">
-
-            <button type="submit">
-                Claim Code Review
-            </button>
-
+            <button type="submit">Claim Code Review</button>
         </form>
 
     {{end}}
@@ -129,15 +99,13 @@
 
     <h2>📌 Review Comments</h2>
 
-    {{if .Comments}}
+    {{if .Room.Comments}}
 
-        {{range .Comments}}
-
+        {{range .Room.Comments}}
             <p>
                 <strong>{{.User}}</strong>:
                 {{.Text}}
             </p>
-
         {{end}}
 
     {{else}}
@@ -147,19 +115,11 @@
     {{end}}
 
     <form action="/comment" method="POST">
+        <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-        <input type="hidden" name="roomid" value="{{.ID}}">
+        <input type="text" name="comment" placeholder="Leave a review comment..." required>
 
-        <input
-            type="text"
-            name="comment"
-            placeholder="Leave a review comment..."
-            required>
-
-        <button type="submit">
-            Add Comment
-        </button>
-
+        <button type="submit">Add Comment</button>
     </form>
 
     <hr>
