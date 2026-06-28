@@ -3,6 +3,7 @@ package handlers
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"fmt"
 	"net/http"
 )
 
@@ -15,46 +16,51 @@ func GenerateId() string {
 
 	return hex.EncodeToString(id)
 }
-
 func CreateRoom(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "POST" {
+	fmt.Println("== CreateRoom called ==")
+
+	if r.Method != http.MethodPost {
+		fmt.Println("Wrong method:", r.Method)
 		http.Error(w, "bad request", http.StatusBadRequest)
 		return
 	}
 
 	room_name := r.FormValue("roomname")
+	fmt.Println("Room name:", room_name)
 
 	if room_name == "" {
+		fmt.Println("Room name is empty")
 		http.Error(w, "room required", http.StatusBadRequest)
 		return
 	}
 
 	if len(room_name) > 15 {
-		http.Error(w, "name to long", http.StatusBadRequest)
+		fmt.Println("Room name too long")
+		http.Error(w, "name too long", http.StatusBadRequest)
 		return
 	}
 
 	for _, rm := range rooms {
 		if rm.Name == room_name {
-			http.Error(w, "room Exist already", http.StatusNotFound)
+			fmt.Println("Room already exists")
+			http.Error(w, "room already exists", http.StatusBadRequest)
 			return
 		}
 	}
+
 	roomID := GenerateId()
+	fmt.Println("Generated ID:", roomID)
 
 	room := &Rooms{
-		ID:         roomID,
-		Name:       room_name,
-		Owner:      current_user.Gitea,
-		Code:       "",
-		CodeOwner:  "",
-		CodeLocked: false,
-		Messages:   []Message{},
-		Comments:   []Comments{},
+		ID:    roomID,
+		Name:  room_name,
+		Owner: current_user.Gitea,
 	}
 
 	rooms[roomID] = room
 
-	http.Redirect(w, r, "/room?id="+roomID, http.StatusSeeOther)
+	fmt.Println("Rooms in map:", len(rooms))
+	fmt.Println("Redirecting to:", "/room?id="+roomID)
 
+	http.Redirect(w, r, "/room?id="+roomID, http.StatusSeeOther)
 }

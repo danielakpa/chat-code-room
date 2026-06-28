@@ -1,12 +1,12 @@
-```html
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{.Room.Name}}</title>
+    <title>{{.Name}}</title>
 </head>
 <body>
 
-    <h1>💻 Chat Code Room</h1>
+    <h1>💻 Chat Code</h1>
 
     <p>
         Welcome,
@@ -14,19 +14,19 @@
         ({{.User.Gitea}})
     </p>
 
-    <h2>{{.Room.Name}}</h2>
+    <h2>{{.Name}}</h2>
 
     <p>
-        <strong>Room ID:</strong>
-        {{.Room.ID}}
+        <strong> ID:</strong>
+        {{.ID}}
     </p>
 
     <hr>
 
     <h2>💬 Chat</h2>
 
-    {{if .Room.Messages}}
-        {{range .Room.Messages}}
+    {{if .Messages}}
+        {{range .Messages}}
             <p>
                 <strong>{{.Users}}</strong>:
                 {{.Text}}
@@ -37,7 +37,7 @@
     {{end}}
 
     <form action="/send-message" method="POST">
-        <input type="hidden" name="roomid" value="{{.Room.ID}}">
+        <input type="hidden" name="roomid" value="{{.ID}}">
 
         <input
             type="text"
@@ -52,7 +52,7 @@
 
     <h2>📝 Shared Code</h2>
 
-    {{if .Room.CodeLocked}}
+    {{if .CodeLocked}}
 
         {{if .IsCodeOwner}}
 
@@ -60,12 +60,12 @@
 
             <form action="/update-code" method="POST">
 
-                <input type="hidden" name="roomid" value="{{.Room.ID}}">
+                <input type="hidden" name="roomid" value="{{.ID}}">
 
                 <textarea
                     name="code"
                     rows="18"
-                    cols="100">{{.Room.Code}}</textarea>
+                    cols="100">{{.Code}}</textarea>
 
                 <br><br>
 
@@ -79,7 +79,7 @@
 
             <form action="/finish-review" method="POST">
 
-                <input type="hidden" name="roomid" value="{{.Room.ID}}">
+                <input type="hidden" name="roomid" value="{{.ID}}">
 
                 <button type="submit">
                     Finish Review
@@ -96,7 +96,7 @@
             <textarea
                 rows="18"
                 cols="100"
-                readonly>{{.Room.Code}}</textarea>
+                readonly>{{.Code}}</textarea>
 
         {{end}}
 
@@ -109,13 +109,13 @@
         <textarea
             rows="18"
             cols="100"
-            readonly>{{.Room.Code}}</textarea>
+            readonly>{{.Code}}</textarea>
 
         <br><br>
 
         <form action="/claim-code" method="POST">
 
-            <input type="hidden" name="roomid" value="{{.Room.ID}}">
+            <input type="hidden" name="roomid" value="{{.ID}}">
 
             <button type="submit">
                 Claim Code Review
@@ -129,9 +129,9 @@
 
     <h2>📌 Review Comments</h2>
 
-    {{if .Room.Comments}}
+    {{if .Comments}}
 
-        {{range .Room.Comments}}
+        {{range .Comments}}
 
             <p>
                 <strong>{{.User}}</strong>:
@@ -148,7 +148,7 @@
 
     <form action="/comment" method="POST">
 
-        <input type="hidden" name="roomid" value="{{.Room.ID}}">
+        <input type="hidden" name="roomid" value="{{.ID}}">
 
         <input
             type="text"
@@ -168,4 +168,3 @@
 
 </body>
 </html>
-```

@@ -14,8 +14,8 @@ func main() {
 
 	http.HandleFunc("/home", handlers.Home)
 
-	// http.HandleFunc("/create-room", handlers.CreateRoom)
-	// http.HandleFunc("/join-room", handlers.JoinRoom)
+	http.HandleFunc("/test", handlers.CreateRoom)
+	http.HandleFunc("/join-room", handlers.JoinRoom)
 	http.HandleFunc("/room", handlers.Room)
 
 	http.HandleFunc("/send-message", handlers.SendMessage)

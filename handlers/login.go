@@ -26,13 +26,13 @@ var current_user User
 
 func Login(w http.ResponseWriter, r *http.Request) {
 
-	if r.Method == "GET" {
+	if r.Method == http.MethodGet {
 		temp.Execute(w, nil)
 		return
 	}
 
 	if r.Method != http.MethodPost {
-		http.Error(w, "badsdf request", 400)
+		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -40,11 +40,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	for _, look := range users {
+
 		if look.Gitea == login || look.Email == login {
 
 			if look.Password != password {
 				temp.Execute(w, User_Pagedata{
-					Errors: "invalid password",
+					Errors: "Invalid password",
+					Gitea:  login,
+					Email:  login,
 				})
 				return
 			}
@@ -57,18 +60,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// User not found
 	temp.Execute(w, User_Pagedata{
-		Errors: "invalid Gitea or Email",
+		Errors: "Invalid Gitea username or Email",
+		Gitea:  login,
+		Email:  login,
 	})
-
-	data := User{
-		Gitea:    login,
-		Email:    login,
-		Password: password,
-	}
-
-	temp.Execute(w, data)
-
-	http.Redirect(w, r, "/home", http.StatusSeeOther)
-
 }

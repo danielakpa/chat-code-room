@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -25,7 +26,9 @@ func Room(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "room not found", http.StatusNotFound)
 		return
 	} else {
-		tmpl.Execute(w, roomss)
+		if err := tmpl.Execute(w, roomss); err != nil {
+			log.Println(err)
+		}
 	}
 
 }
