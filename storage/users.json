@@ -40,5 +40,11 @@
   "gitea": "",
   "email": "",
   "password": ""
+ },
+ {
+  "name": "daniel akpa",
+  "gitea": "daakpa",
+  "email": "dakpa@gmail.com",
+  "password": "daniel"
  }
 ]

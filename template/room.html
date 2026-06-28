@@ -1,86 +1,171 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Room</title>
+    <title>{{.Room.Name}}</title>
 </head>
 <body>
-    <h1>Room: {{.RoomID}}</h1>
+
+    <h1>💻 Chat Code Room</h1>
+
+    <p>
+        Welcome,
+        <strong>{{.User.Name}}</strong>
+        ({{.User.Gitea}})
+    </p>
+
+    <h2>{{.Room.Name}}</h2>
+
+    <p>
+        <strong>Room ID:</strong>
+        {{.Room.ID}}
+    </p>
+
     <hr>
-    <h2>Chat</h2>
-    {{range .Messages}}
-        <p> <strong>{{.User}}</strong>: {{.Text}} </p>
+
+    <h2>💬 Chat</h2>
+
+    {{if .Room.Messages}}
+        {{range .Room.Messages}}
+            <p>
+                <strong>{{.Users}}</strong>:
+                {{.Text}}
+            </p>
+        {{end}}
+    {{else}}
+        <p>No messages yet.</p>
     {{end}}
 
     <form action="/send-message" method="POST">
-        <input type="hidden" name="roomid" value="{{.RoomID}}">
+        <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-        <input type="text" name="message" placeholder="Send a message">
+        <input
+            type="text"
+            name="message"
+            placeholder="Type a message..."
+            required>
 
         <button type="submit">Send</button>
     </form>
 
     <hr>
 
-    <h2>Code Review</h2>
+    <h2>📝 Shared Code</h2>
 
-    {{if .CodeLocked}}
+    {{if .Room.CodeLocked}}
 
         {{if .IsCodeOwner}}
 
+            <p>You are currently reviewing the shared code.</p>
+
             <form action="/update-code" method="POST">
-                <input type="hidden" name="roomid" value="{{.RoomID}}">
 
-                <textarea name="code" rows="15" cols="80">{{.Code}}</textarea>
+                <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-                <br>
+                <textarea
+                    name="code"
+                    rows="18"
+                    cols="100">{{.Room.Code}}</textarea>
 
-                <button type="submit"> Update Code</button>
+                <br><br>
+
+                <button type="submit">
+                    Save Changes
+                </button>
+
             </form>
-            <br>
-            <form action="/finish-review" method="POST">
-                <input type="hidden" name="roomid" value="{{.RoomID}}">
 
-                <button type="submit">Finish Review </button>
+            <br>
+
+            <form action="/finish-review" method="POST">
+
+                <input type="hidden" name="roomid" value="{{.Room.ID}}">
+
+                <button type="submit">
+                    Finish Review
+                </button>
+
             </form>
 
         {{else}}
 
-            <p>Someone is currently reviewing code.</p>
+            <p>
+                Another user is currently reviewing the code.
+            </p>
 
-            <textarea rows="15" cols="80" readonly>{{.Code}}</textarea>
+            <textarea
+                rows="18"
+                cols="100"
+                readonly>{{.Room.Code}}</textarea>
 
         {{end}}
+
     {{else}}
 
-        <p>No code is currently being reviewed.</p>
+        <p>
+            No one is currently reviewing code.
+        </p>
+
+        <textarea
+            rows="18"
+            cols="100"
+            readonly>{{.Room.Code}}</textarea>
+
+        <br><br>
 
         <form action="/claim-code" method="POST">
-            <input type="hidden" name="roomid" value="{{.RoomID}}">
 
-            <button type="submit"> Start Reviewing My Code </button>
+            <input type="hidden" name="roomid" value="{{.Room.ID}}">
+
+            <button type="submit">
+                Claim Code Review
+            </button>
+
         </form>
 
     {{end}}
 
     <hr>
 
-    <h2>Comments</h2>
+    <h2>📌 Review Comments</h2>
 
-    {{range .Comments}}
-        <p>
-            <strong>{{.User}}</strong>: {{.Text}}
-        </p>
+    {{if .Room.Comments}}
+
+        {{range .Room.Comments}}
+
+            <p>
+                <strong>{{.User}}</strong>:
+                {{.Text}}
+            </p>
+
+        {{end}}
+
+    {{else}}
+
+        <p>No comments yet.</p>
+
     {{end}}
 
-    <form action="/add-comment" method="POST">
+    <form action="/comment" method="POST">
 
-        <input type="hidden" name="roomid" value="{{.RoomID}}">
+        <input type="hidden" name="roomid" value="{{.Room.ID}}">
 
-        <input type="text" name="comment" placeholder="Leave a comment">
+        <input
+            type="text"
+            name="comment"
+            placeholder="Leave a review comment..."
+            required>
 
-        <button type="submit">Comment</button>
+        <button type="submit">
+            Add Comment
+        </button>
+
     </form>
+
     <hr>
-    <a href="/home">Back Home</a>
+
+    <a href="/home">← Back to Home</a>
+
 </body>
 </html>
+```

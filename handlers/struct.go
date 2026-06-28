@@ -12,6 +12,9 @@ type Comments struct {
 
 type Rooms struct {
 	ID         string
+	Name       string
+	Owner      string
+	Code       string
 	RoomCode   string
 	CodeOwner  string
 	CodeLocked bool
