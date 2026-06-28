@@ -6,22 +6,13 @@ import (
 	"net/http"
 )
 
-type User struct {
-	Name     string
-	Gitea    string
-	Email    string
-	Password string
-}
-
-var users []User
-
 func main() {
 
-	http.HandleFunc("/signup", handlers.Signup)
+	http.HandleFunc("/", handlers.Signup)
 	http.HandleFunc("/login", handlers.Login)
 	// http.HandleFunc("/logout", handlers.Logout)
 
-	// http.HandleFunc("/home", handlers.Home)
+	http.HandleFunc("/home", handlers.Home)
 
 	// http.HandleFunc("/create-room", handlers.CreateRoom)
 	// http.HandleFunc("/join-room", handlers.JoinRoom)

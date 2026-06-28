@@ -22,14 +22,17 @@ func login() {
 
 }
 
+var current_user User
+
 func Login(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 		temp.Execute(w, nil)
+		return
 	}
 
 	if r.Method != http.MethodPost {
-		http.Error(w, "bad request", 400)
+		http.Error(w, "badsdf request", 400)
 		return
 	}
 
@@ -37,43 +40,26 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	for _, look := range users {
-		if look.Gitea != login {
-			msg := User_Pagedata{
-				Errors:   "invalid Gitea",
-				Gitea:    login,
-				Email:    login,
-				Password: password,
-			}
-			temp.Execute(w, msg)
-			return
-		}
+		if look.Gitea == login || look.Email == login {
 
-	}
-	for _, look2 := range users {
-		if look2.Email != login {
-			msg2 := User_Pagedata{
-				Errors:   "invalid email",
-				Gitea:    login,
-				Email:    login,
-				Password: password,
+			if look.Password != password {
+				temp.Execute(w, User_Pagedata{
+					Errors: "invalid password",
+				})
+				return
 			}
-			temp.Execute(w, msg2)
-			return
-		}
 
-	}
-	for _, look3 := range users {
-		if look3.Password != password {
-			msg3 := User_Pagedata{
-				Errors:   " invalid password",
-				Gitea:    login,
-				Email:    login,
-				Password: password,
-			}
-			temp.Execute(w, msg3)
+			// Login successful
+			current_user = look
+
+			http.Redirect(w, r, "/home", http.StatusSeeOther)
 			return
 		}
 	}
+
+	temp.Execute(w, User_Pagedata{
+		Errors: "invalid Gitea or Email",
+	})
 
 	data := User{
 		Gitea:    login,
@@ -82,5 +68,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	temp.Execute(w, data)
+
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 
 }
