@@ -45,9 +45,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 			if look.Password != password {
 				temp.Execute(w, User_Pagedata{
-					Errors: "Invalid password",
-					Gitea:  login,
-					Email:  login,
+					Pass_Errors: "Invalid password",
+					Gitea:       login,
+					Email:       login,
 				})
 				return
 			}
@@ -62,8 +62,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// User not found
 	temp.Execute(w, User_Pagedata{
-		Errors: "Invalid Gitea username or Email",
-		Gitea:  login,
-		Email:  login,
+		Em_Errors: "Invalid Gitea username or Email",
+		Gitea:     login,
+		Email:     login,
 	})
 }

@@ -7,14 +7,18 @@
 <body>
     <h1>sign up</h1>
     <form method="post" action="/signup">
-        <input type="text" name="name" value="{{.Name}}" placeholder="name(full name)" ><br>
-        <input type="text" name="gitea" value="{{.Gitea}}" placeholder="gitea-username" ><br>
+        <input type="text" name="name" value="{{.Name}}" placeholder="name(full name)" ><br><br>
+        <input type="text" name="gitea" value="{{.Gitea}}" placeholder="gitea-username" ><br><br>
         <input type="text" name="email" value="{{.Email}}" placeholder="email"><br>
-            {{.Errors}}<br>
-
-        <input type="password" name="password" placeholder="password"><br>
+        {{if .Em_Errors}}
+           <span style="color:red">{{.Em_Errors}}</span>
+           {{end}} 
+       
+        <input type="password" name="password" placeholder="password"><br><br>
         <input type="password" name="confirm_password" placeholder="confirm password"><br>
-        {{.Errors}} <br>
+         {{if .Pass_Errors}}
+        <span style="color:rgb(128, 17, 17)">{{.Pass_Errors}}  </span><br>
+        {{end}}
         <select name="referrals" required="must select this option" >
             <option value="" disabled selected>--How did you hear about us--</option>
             <option>A friend</option>
@@ -26,7 +30,7 @@
         </select><br><br>
 
 
-          <button type="submit">Create Account</button><br>
+          <button type="submit">Create Account</button><br><br>
     </form>
     Have an Account?
     <a href="/login" > login</button>

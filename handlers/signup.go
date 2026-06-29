@@ -6,11 +6,12 @@ import (
 )
 
 type User_Pagedata struct {
-	Errors   string
-	Name     string
-	Gitea    string
-	Email    string
-	Password string
+	Pass_Errors string
+	Em_Errors   string
+	Name        string
+	Gitea       string
+	Email       string
+	Password    string
 }
 
 type User struct {
@@ -44,10 +45,10 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 
 	if password != Confrim_password {
 		err_msg := User_Pagedata{
-			Errors: "password do not match",
-			Name:   user,
-			Gitea:  gitea,
-			Email:  email,
+			Pass_Errors: "password do not match",
+			Name:        user,
+			Gitea:       gitea,
+			Email:       email,
 		}
 		tmp.Execute(w, err_msg)
 		return
@@ -56,10 +57,10 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	for _, e := range users {
 		if e.Email == email {
 			pageData := User_Pagedata{
-				Errors: "Email already exists",
-				Name:   user,
-				Gitea:  gitea,
-				Email:  email,
+				Em_Errors: "Email already exists",
+				Name:      user,
+				Gitea:     gitea,
+				Email:     email,
 			}
 
 			tmp.Execute(w, pageData)
