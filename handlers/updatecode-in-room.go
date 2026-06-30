@@ -8,7 +8,7 @@ func UpdateCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	roomID := r.FormValue("roomID")
+	roomID := r.FormValue("roomid")
 	code := r.FormValue("code")
 
 	room, Exist := rooms[roomID]
