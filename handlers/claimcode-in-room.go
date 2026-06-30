@@ -21,9 +21,15 @@ func ClaimCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user, Exist := Get_home_user(r)
+	if !Exist {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
 	room.CodeLocked = true
 
-	room.CodeOwner = current_user.Gitea
+	room.CodeOwner = user.Gitea
 
 	http.Redirect(w, r, "/room?id="+roomID, http.StatusSeeOther)
 }

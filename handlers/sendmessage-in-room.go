@@ -18,8 +18,14 @@ func SendMessage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user, Exist := Get_home_user(r)
+	if !Exist {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
 	msg := Message{
-		Users: current_user.Gitea,
+		Users: user.Gitea,
 		Text:  MessageText,
 	}
 	room.Messages = append(room.Messages, msg)

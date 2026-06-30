@@ -11,13 +11,13 @@
         <input type="text" name="gitea" value="{{.Gitea}}" placeholder="gitea-username" ><br><br>
         <input type="text" name="email" value="{{.Email}}" placeholder="email"><br>
         {{if .Em_Errors}}
-           <span style="color:red">{{.Em_Errors}}</span>
+           <span style="color:red">{{.Em_Errors}}</span><br><br>
            {{end}} 
        
         <input type="password" name="password" placeholder="password"><br><br>
-        <input type="password" name="confirm_password" placeholder="confirm password"><br>
+        <input type="password" name="confirm_password" placeholder="confirm password"><br><br>
          {{if .Pass_Errors}}
-        <span style="color:rgb(128, 17, 17)">{{.Pass_Errors}}  </span><br>
+        <span style="color:rgb(128, 17, 17)">{{.Pass_Errors}}  </span><br><br>
         {{end}}
         <select name="referrals" required="must select this option" >
             <option value="" disabled selected>--How did you hear about us--</option>

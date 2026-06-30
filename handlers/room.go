@@ -32,9 +32,14 @@ func Room(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "room not found", http.StatusNotFound)
 		return
 	}
+	user, Exist := Get_home_user(r)
+	if !Exist {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
 
 	data := RoomPageData{
-		User: current_user,
+		User: user,
 		Room: roomss,
 	}
 

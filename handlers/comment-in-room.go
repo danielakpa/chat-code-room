@@ -18,8 +18,14 @@ func Comment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user, Exist := Get_home_user(r)
+	if !Exist {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
 	com := Comments{
-		User: current_user.Gitea,
+		User: user.Gitea,
 		Text: comment,
 	}
 	Saveroom()

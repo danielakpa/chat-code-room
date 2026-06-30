@@ -26,7 +26,7 @@ var users []User
 var tmp = template.Must(template.ParseFiles("template/signup.html"))
 
 func Signup(w http.ResponseWriter, r *http.Request) {
-	Loaddata()
+	Logindata()
 	if r.Method == "GET" {
 		tmp.Execute(w, nil)
 		return
@@ -75,7 +75,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		Password: password,
 	})
 
-	Savedata()
+	Savelogindata()
 
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }

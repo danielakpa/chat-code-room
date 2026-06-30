@@ -22,8 +22,6 @@ func login() {
 
 }
 
-var current_user User
-
 func Login(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodGet {
@@ -53,7 +51,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			}
 
 			// Login successful
-			current_user = look
+			sessionID := Generate_Login_ID()
+			sessions[sessionID] = look
+
+			cookies := &http.Cookie{
+				Name:  "session_id",
+				Value: sessionID,
+				Path:  "/",
+			}
+
+			http.SetCookie(w, cookies)
 
 			http.Redirect(w, r, "/home", http.StatusSeeOther)
 			return

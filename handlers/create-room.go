@@ -51,10 +51,16 @@ func CreateRoom(w http.ResponseWriter, r *http.Request) {
 	roomID := GenerateId()
 	fmt.Println("Generated ID:", roomID)
 
+	user, Exist := Get_home_user(r)
+	if !Exist {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
 	room := &Rooms{
 		ID:    roomID,
 		Name:  room_name,
-		Owner: current_user.Gitea,
+		Owner: user.Gitea,
 	}
 
 	rooms[roomID] = room

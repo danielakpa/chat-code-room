@@ -21,4 +21,7 @@ type Rooms struct {
 	Comments   []Comments
 }
 
+var current_user User
+var sessions = make(map[string]User)
+
 var rooms = make(map[string]*Rooms)
