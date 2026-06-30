@@ -31,10 +31,19 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user,Exist := Get_home_user(r)
+	if !Exist {
+		http.Redirect(w,r, "/login", http.StatusSeeOther)
+		return
+	}
+
+
 	data := Home_Data{
-		Home_user: current_user,
+		Home_user: user,
 		Home_Room: Getroom(),
 	}
+
+
 
 	home_temp.Execute(w, data)
 

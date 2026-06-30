@@ -14,6 +14,7 @@ type RoomPageData struct {
 }
 
 func Room(w http.ResponseWriter, r *http.Request) {
+	LoadRoom()
 
 	if r.Method != http.MethodGet {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
@@ -43,8 +44,10 @@ func Room(w http.ResponseWriter, r *http.Request) {
 		Room: roomss,
 	}
 
-	fmt.Println("Current user:", current_user.Gitea)
+	fmt.Println("Current user:", user.Gitea)
 	fmt.Println("Room:", roomss.Name)
+
+	SaveRoom()
 
 	err := tmpl.Execute(w, data)
 	if err != nil {

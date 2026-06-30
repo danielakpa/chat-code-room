@@ -1,26 +1,11 @@
 package handlers
 
 import (
-	"encoding/json"
 	"html/template"
 	"net/http"
-	"os"
 )
 
 var temp = template.Must(template.ParseFiles("template/login.html"))
-
-func login() {
-	data, err := os.ReadFile("users.json")
-	if err != nil {
-		return
-	}
-
-	err = json.Unmarshal(data, &users)
-	if err != nil {
-		return
-	}
-
-}
 
 func Login(w http.ResponseWriter, r *http.Request) {
 

@@ -9,12 +9,12 @@ import (
 )
 
 func SaveRoom() {
-	room, err := json.MarshalIndent(users, "", " ")
+	room, err := json.MarshalIndent(rooms, "", " ")
 	if err != nil {
 		return
 	}
 
-	os.WriteFile("strorage/room.json", room, 0666)
+	os.WriteFile("storage/room.json", room, 0666)
 }
 
 func LoadRoom() {
@@ -23,7 +23,7 @@ func LoadRoom() {
 		return
 	}
 
-	err = json.Unmarshal(room, &users)
+	err = json.Unmarshal(room, &rooms)
 	if err != nil {
 		return
 	}
