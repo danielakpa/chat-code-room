@@ -31,6 +31,7 @@ func Comment(w http.ResponseWriter, r *http.Request) {
 	Saveroom()
 
 	room.Comments = append(room.Comments, com)
+	SaveRoom()
 
 	http.Redirect(w, r, "/room?id="+roomID, http.StatusSeeOther)
 

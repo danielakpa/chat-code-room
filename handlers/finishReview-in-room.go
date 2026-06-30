@@ -16,9 +16,9 @@ func FinishReview(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	room.RoomCode = ""
 	room.CodeOwner = ""
 	room.CodeLocked = false
+	SaveRoom()
 
 	http.Redirect(w, r, "/room?id="+roomID, http.StatusSeeOther)
 

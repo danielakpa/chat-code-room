@@ -29,6 +29,7 @@ func SendMessage(w http.ResponseWriter, r *http.Request) {
 		Text:  MessageText,
 	}
 	room.Messages = append(room.Messages, msg)
+	SaveRoom()
 
 	http.Redirect(w, r, "/room?id="+roomID, http.StatusSeeOther)
 }

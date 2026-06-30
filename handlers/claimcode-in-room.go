@@ -30,6 +30,7 @@ func ClaimCode(w http.ResponseWriter, r *http.Request) {
 	room.CodeLocked = true
 
 	room.CodeOwner = user.Gitea
+	SaveRoom()
 
 	http.Redirect(w, r, "/room?id="+roomID, http.StatusSeeOther)
 }
